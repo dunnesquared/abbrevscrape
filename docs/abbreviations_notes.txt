@@ -19,6 +19,7 @@ Script should
 Nice to have:
 - Tell user when abbreviations.txt was last updated
 - Not write to file if there have been no changes to abbreviation on OED (check when file was last modified? retain hash?)
+- Let user add/remove abbreviation 
 
 Things to double-check:
 -----------------------
