@@ -4,14 +4,14 @@
 
 
 To Do:
-    * See whether you can improve collection of abbreviations using filter
-      and lambda functions
     * Comment!
 
 
 Done:
     * Create test script
     * Import required packages into library
+    * See whether you can improve collection of abbreviations using filter
+      and lambda functions
 
 """
 
@@ -32,6 +32,24 @@ def is200(status_code):
         False: status_code != 200
     '''
     return True if status_code == 200 else False
+
+
+def filter_abbrevs(abbrevs):
+    '''Return filtered list of abbreviations
+
+    Args:
+        abbrevs (list): Abbreviations from wikitionary
+
+    Return:
+        filtered (list): a subset of the list of abbreviations passed by
+                         caller
+    '''
+
+    # Remove acronyms; only interested in abbreviations that end with a .
+    filtered = list(filter(lambda x: x[-1] == '.' , abbrevs))
+
+    return filtered
+
 # ------------------------------------------------------------------------------
 
 
@@ -40,11 +58,19 @@ def is200(status_code):
 
 if __name__ == "__main__":
 
-    # First page  where abbreviations will start to be scraped
+
+    # First page where abbreviations will start to be scraped
+    startURL = 'https://en.wiktionary.org/w/index.php?title=Category:' \
+               'English_abbreviations&from=A'
+
     mainURL = 'https://en.wiktionary.org'
-    startURL = 'https://en.wiktionary.org/w/index.php?title=Category:English_abbreviations&from=A'
+
+    # Number of abbreviation pages needed for this script
     numpages = 21
-    delay = 1 # 1 second
+
+    # The delay between fetching each page (in seconds)
+    # If we scrape to fast, website might block us.
+    delay = 1
 
     # List to contain fetched abbreviations
     wiki_abbrevs = []
@@ -54,7 +80,7 @@ if __name__ == "__main__":
     # Intro
     print("Welcome to abbrevscrape!")
     print("This script will update abbreviations.txt with any new " +
-          f"abbreviations from Wikitionary.org.")
+          "abbreviations from Wikitionary.org.")
 
     # Give user choice to quit update: may not be necessary if done recently or
     # if use is unsure whether it is legal to scrape website
@@ -99,17 +125,10 @@ if __name__ == "__main__":
             # Feteched abbreviation!
             abbrev = li_tag.a.string
 
-            # We're only concerned with abbreviations that end with a period
-            # Acronyms such as ALCO can be ignored
-            if abbrev[-1] == '.':
-                # print(abbrev) # DEBUG
-                wiki_abbrevs.append(abbrev)
-
-
+            wiki_abbrevs.append(abbrev)
 
         # Get the hyperlink to next page
         hyperlink = div.find('a', text='next page')
-        # print(hyperlink) # DEBUG
 
         # Get relative URL to next page with abbreviations
         # Caution: program assumes only 21 pages need to be fetched,
@@ -120,14 +139,13 @@ if __name__ == "__main__":
             break
 
         relURL = hyperlink['href']
-
-        # print(relURL) # DEBUG
-
         absURL =  mainURL + relURL
-        # print(absURL) # DEBUG
 
         time.sleep(delay)
 
+
+# Comment out this line if you want to keep everything from wikitionary
+wiki_abbrevs = filter_abbrevs(wiki_abbrevs)
 
 # Write abbreviations to file
 with open("wikitionary.txt", 'w') as fout:
@@ -146,7 +164,7 @@ user_abbrevs.pop()
 with open("remove.txt", 'r') as fin:
     remove_abbrevs = fin.read().split('\n')
 
-# Create sets
+# Sets make it easier to remove duplicates or unwanted elements
 wikiset = set(wiki_abbrevs)
 userset = set(user_abbrevs)
 removeset = set(remove_abbrevs)
@@ -155,26 +173,12 @@ removeset = set(remove_abbrevs)
 abbrevset = wikiset.union(userset)
 
 # Remove any abbreviations that may cause us trouble
-abbrevset = wikiset.difference(removeset)
+abbrevset = abbrevset.difference(removeset)
 
-# Sort the set before writing
+# Sort the set before writing (easier for humans to visually search/debug)
 abbrevset = sorted(abbrevset)
 
 # Write merged and filtered set to abbreviations.txt
 with open("abbreviations.txt", 'w') as fout:
     for elem in abbrevset:
         fout.write(elem + '\n')
-
-
-# DEBUG info
-print(wiki_abbrevs) # DEBUG
-print(user_abbrevs)
-print(remove_abbrevs)
-print("*****************")
-print(sorted(abbrevset))
-print(sorted(wikiset.intersection(userset)))
-
-print(f"# Wikitionary abbreviations = {len(wiki_abbrevs)}")
-print(f"# User abbreviations = {len(user_abbrevs)}")
-print(f"# Removed abbreviations = {len(remove_abbrevs)}")
-print(f"# abbrevs  =  {len(abbrevset)}")

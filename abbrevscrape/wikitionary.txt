@@ -583,6 +583,7 @@ Info.
 ins.
 Ins.
 inst.
+inst.
 Inst.
 int.
 Inter-Am.

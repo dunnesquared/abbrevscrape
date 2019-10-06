@@ -103,7 +103,6 @@ C.J.
 C.M.A.
 C.M.R.
 Cai.
-Cal.
 Calif.
 Canad.
 Cant.
@@ -236,7 +235,6 @@ Educ.
 Egy.
 El Sal.
 Elec.
-Elgin.
 Emer.
 Emp.
 Eng.
@@ -246,7 +244,6 @@ Envtl.
 Eph.
 Ephes.
 Eq.
-Equal.
 Equip.
 Eri.
 Err.
@@ -403,6 +400,7 @@ Lnk.
 Ltd.
 Lth.
 Luk.
+M.
 M.D. Fla.
 M.Eng.
 M.R.
@@ -418,6 +416,7 @@ Maj.
 Maj. Gen.
 Mal.
 Malay.
+Mar.
 Mat.
 Matth.
 Mech.
@@ -431,6 +430,7 @@ Micr.
 Mid.
 Mkt.
 Mktg.
+Mme.
 Mo.
 ModUk.
 Mold.
@@ -441,12 +441,16 @@ Mortg.
 Mozam.
 Mpls.
 Mr.
+Mrs.
+Ms.
 Msgr.
 Mst.
 Mtl.
 Mun.
 Mut.
+Mx.
 Myan.
+Mz.
 N.
 N. Am.
 N. F.
@@ -529,7 +533,6 @@ Para.
 Pe.
 Per.
 Pers.
-Pet.
 Pg.
 Pharm.
 Pharm.D.
@@ -680,6 +683,8 @@ Tts.
 Tunis.
 Turkm.
 Twp.
+U.A.E.
+U.K.
 USorb.
 Ukr.
 Uls.
@@ -768,6 +773,7 @@ adm.
 adv.
 aff.
 agmt.
+al.
 alk.
 amb.
 amer.
@@ -782,6 +788,7 @@ ans.
 anthrop.
 ap.
 appar.
+approx.
 apps.
 appt.
 apt.
@@ -869,6 +876,7 @@ drs.
 du.
 e.
 e.An.
+e.g.
 ea.
 ec.
 ed.
@@ -927,6 +935,7 @@ hwy.
 hydrarg.
 hyp.
 hypo.
+i.e.
 i.p.i.
 ib.
 illus.
@@ -953,7 +962,6 @@ l.p.h.
 lat.
 lig.
 lin.
-lit.
 ll.
 loc.
 loq.
@@ -969,6 +977,7 @@ mi.
 mimeo.
 mod.F.
 mon.
+mov.
 ms.
 mt.
 mtg.
@@ -1021,7 +1030,6 @@ p.pr.
 p.t.
 para.
 paras.
-part.
 pass.
 pat. pend.
 pctl.

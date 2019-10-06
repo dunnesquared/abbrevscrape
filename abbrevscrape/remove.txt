@@ -11,7 +11,6 @@ ant.
 Ant.
 Barb.
 app.
-approx.
 Ark.
 Arm.
 art.
@@ -61,7 +60,6 @@ Mac.
 Mag.
 Man.
 man.
-Mar.
 Mart.
 Mass.
 math.
@@ -73,7 +71,6 @@ Metro.
 Mex.
 min.
 Minn.
-mov.
 No.
 Non.
 Nor.
@@ -117,11 +114,8 @@ Tim.
 Tit.
 tit.
 tits.
-unis.
 Turk.
 Turks & Caicos Is.
-U.A.E.
-U.K.
 yd.
 Y.
 St.
@@ -133,3 +127,7 @@ bus.
 Bus.
 Bucks.
 Pan.
+lit.
+Cal.
+Elgin.
+Equal.
