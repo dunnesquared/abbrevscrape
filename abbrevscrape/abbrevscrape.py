@@ -15,6 +15,7 @@ Done:
 
 """
 
+import sys
 import time
 import requests
 import urllib.request
@@ -46,7 +47,7 @@ def filter_abbrevs(abbrevs):
     '''
 
     # Remove acronyms; only interested in abbreviations that end with a .
-    filtered = list(filter(lambda x: x[-1] == '.' , abbrevs))
+    filtered = list(filter(lambda x: x[-1] == '.', abbrevs))
 
     return filtered
 
@@ -88,24 +89,34 @@ if __name__ == "__main__":
     print("Before scraping any website, verify that it's legal to do so by " +
           "reading its terms of service and/or checking its robots.txt file.")
     ans = input("Would you like to continue (Y/N)? ").strip()
-    possible = ['Y', 'y', 'Yes', 'yes',  'N', 'n', 'No', 'no']
+    possible = ['Y', 'y', 'Yes', 'yes', 'N', 'n', 'No', 'no']
 
     if ans not in possible:
-        print("Invalid response. Quitting script.")
-        exit()
+        print("Invalid input. Quitting script.", file=sys.stderr)
+        sys.exit(2) # UNIX convention for command-line syntax errors
     if ans in ['N', 'n', 'No', 'no']:
-        exit()
+        sys.exit()
 
     for n in range(numpages):
         # Fetch web page; check whether successful
         print(f"Fetching {absURL}...")
-        response = requests.get(absURL)
+
+        try:
+            response = requests.get(absURL)
+
+        # No need to catch specific exceptions such as ConnectionError
+        # or TimeoutError for this simple script: just catch the basecalsse
+        except requests.exceptions.RequestException as e:
+            print(f"\nERROR:\n{e}", file=sys.stderr)
+            sys.exit("\nCheck that you are connected to the internet " \
+                     "and that URL is correct.\n")
+
         status_code = response.status_code
 
         if not is200(status_code):
-            print(f"Status code {status_code} unexpected; expecting 200. "\
-                  "Quitting script.")
-            exit()
+            print(f"Status code {status_code} unexpected: exepecting 200.",
+                  file=sys.stderr)
+            sys.exit("Quitting script.")
 
         print(f"{response} => GET successful! Page retrieved.")
 
