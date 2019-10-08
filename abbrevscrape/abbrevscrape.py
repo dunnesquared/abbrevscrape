@@ -44,7 +44,7 @@ def carry_on(ans):
 
 
 def scrape_wiki(abs_url, main_url, numpages, delay):
-    '''Download all relevant pages to abbreviations from wikitionary.org and
+    '''Download all relevant pages to abbreviations from wiktionary.org and
        parse each page for abbreviations
 
     Args:
@@ -136,10 +136,10 @@ def is200(status_code):
 
 
 def filter_abbrevs(abbrevs):
-    '''Return filtered list of abbreviations from wikitionary
+    '''Return filtered list of abbreviations from wiktionary
 
     Args:
-        abbrevs (list): Abbreviations from wikitionary
+        abbrevs (list): Abbreviations from wiktionary
 
     Return:
         filtered (list): a subset of the list of abbreviations passed by
@@ -156,7 +156,7 @@ def create_abbrevset(wiki_abbrevs, add_abbrevs, remove_abbrevs):
        abbreviations.txt and so processed by textanalysis.py.
 
      Args:
-        wiki_abbrevs (list): abbreviations from wikitionary.org
+        wiki_abbrevs (list): abbreviations from wiktionary.org
         add_abbrevs (list): user abbreviations from add.txt
         remove_abbrevs(list): user abbreviations from remove.txt
 
@@ -222,15 +222,15 @@ def run():
     # Exit program if user said no or something unintelligible; carry-on if yes
     carry_on(ans)
 
-    # Get all the pages on wikitionary related to abbreviations
+    # Get all the pages on wiktionary related to abbreviations
     wiki_abbrevs = scrape_wiki(abs_url, main_url, numpages, delay)
 
-    # Comment out this line if you want to keep everything from wikitionary
+    # Comment out this line if you want to keep everything from wiktionary
     wiki_abbrevs = filter_abbrevs(wiki_abbrevs)
 
     try:
         # Write filtered wiki_abbrevs to file
-        with open("wikitionary.txt", 'w') as fout:
+        with open("wiktionary.txt", 'w') as fout:
             for abbrev in wiki_abbrevs:
                 fout.write(abbrev + '\n')
 
@@ -246,7 +246,7 @@ def run():
             remove_abbrevs = fin.read().split('\n')
 
 
-        # Add and remove any abbreviations from wikitionary
+        # Add and remove any abbreviations from wiktionary
         abbrevset = create_abbrevset(wiki_abbrevs, add_abbrevs, remove_abbrevs)
 
         # Write final set to abbreviations.txt to be used by textanalysis.py
