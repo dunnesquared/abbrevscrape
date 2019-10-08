@@ -228,29 +228,35 @@ def run():
     # Comment out this line if you want to keep everything from wikitionary
     wiki_abbrevs = filter_abbrevs(wiki_abbrevs)
 
-    # Write filter wiki_abbrevs to file
-    with open("wikitionary.txt", 'w') as fout:
-        for abbrev in wiki_abbrevs:
-            fout.write(abbrev + '\n')
+    try:
+        # Write filtered wiki_abbrevs to file
+        with open("wikitionary.txt", 'w') as fout:
+            for abbrev in wiki_abbrevs:
+                fout.write(abbrev + '\n')
 
-    # Load user-entered abbreviations
-    with open("add.txt", 'r') as fin:
-        add_abbrevs = fin.read().split('\n')
-    # Last item is a blank space; don't need that
-    add_abbrevs.pop()
+        # Load user-entered abbreviations
+        with open("add.txt", 'r') as fin:
+            add_abbrevs = fin.read().split('\n')
+        # Last item is a blank space; don't need that
+        add_abbrevs.pop()
 
-    # Load abbreviations that are too commonly used as nouns or verbs
-    # These should not be in the abbreviation list we want for textanalysis
-    with open("remove.txt", 'r') as fin:
-        remove_abbrevs = fin.read().split('\n')
+        # Load abbreviations that are too commonly used as nouns or verbs
+        # These should not be in the abbreviation list we want for textanalysis
+        with open("remove.txt", 'r') as fin:
+            remove_abbrevs = fin.read().split('\n')
 
-    # Add and remove any abbreviations from wikitionary
-    abbrevset = create_abbrevset(wiki_abbrevs, add_abbrevs, remove_abbrevs)
 
-    # Write final set to abbreviations.txt to be used by textanalysis.py
-    with open("abbreviations.txt", 'w') as fout:
-        for elem in abbrevset:
-            fout.write(elem + '\n')
+        # Add and remove any abbreviations from wikitionary
+        abbrevset = create_abbrevset(wiki_abbrevs, add_abbrevs, remove_abbrevs)
+
+        # Write final set to abbreviations.txt to be used by textanalysis.py
+        with open("abbreviations.txt", 'w') as fout:
+            for elem in abbrevset:
+                fout.write(elem + '\n')
+
+    except OSError as err:
+        print("OS error: {0}".format(err), file=sys.stderr)
+        sys.exit()
 
 # ------------------------------------------------------------------------------
 if __name__ == "__main__":
