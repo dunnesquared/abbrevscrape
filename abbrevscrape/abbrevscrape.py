@@ -18,7 +18,6 @@ Done:
 import sys
 import time
 import requests
-import urllib.request
 from bs4 import BeautifulSoup
 
 # HELPER FUNCTIONS
@@ -32,7 +31,7 @@ def is200(status_code):
         True : status_code == 200
         False: status_code != 200
     '''
-    return True if status_code == 200 else False
+    return status_code == 200
 
 
 def filter_abbrevs(abbrevs):
@@ -51,20 +50,27 @@ def filter_abbrevs(abbrevs):
 
     return filtered
 
-# ------------------------------------------------------------------------------
-
-
 # MAIN SCRIPT
 # ------------------------------------------------------------------------------
+def run():
+    '''Execute web-scraping script
 
-if __name__ == "__main__":
+    Args:
+        nil
 
+    Raise:
+        requests.exceptions.RequestException: in case of connection issues
+        reaching URL
+
+    Return:
+        nil
+    '''
 
     # First page where abbreviations will start to be scraped
-    startURL = 'https://en.wiktionary.org/w/index.php?title=Category:' \
+    start_url = 'https://en.wiktionary.org/w/index.php?title=Category:' \
                'English_abbreviations&from=A'
 
-    mainURL = 'https://en.wiktionary.org'
+    main_url = 'https://en.wiktionary.org'
 
     # Number of abbreviation pages needed for this script
     numpages = 21
@@ -76,7 +82,7 @@ if __name__ == "__main__":
     # List to contain fetched abbreviations
     wiki_abbrevs = []
 
-    absURL = startURL
+    abs_url = start_url
 
     # Intro
     print("Welcome to abbrevscrape!")
@@ -97,24 +103,24 @@ if __name__ == "__main__":
     if ans in ['N', 'n', 'No', 'no']:
         sys.exit()
 
-    for n in range(numpages):
+    for _ in range(numpages):
         # Fetch web page; check whether successful
-        print(f"Fetching {absURL}...")
+        print(f"Fetching {abs_url}...")
 
         try:
-            response = requests.get(absURL)
+            response = requests.get(abs_url)
 
         # No need to catch specific exceptions such as ConnectionError
         # or TimeoutError for this simple script: just catch the basecalsse
-        except requests.exceptions.RequestException as e:
-            print(f"\nERROR:\n{e}", file=sys.stderr)
+        except requests.exceptions.RequestException as err:
+            print(f"\nERROR:\n{err}", file=sys.stderr)
             sys.exit("\nCheck that you are connected to the internet " \
                      "and that URL is correct.\n")
 
-        status_code = response.status_code
+        code = response.status_code
 
-        if not is200(status_code):
-            print(f"Status code {status_code} unexpected: exepecting 200.",
+        if not is200(code):
+            print(f"Status code {code} unexpected: exepecting 200.",
                   file=sys.stderr)
             sys.exit("Quitting script.")
 
@@ -149,47 +155,50 @@ if __name__ == "__main__":
         if not hyperlink:
             break
 
-        relURL = hyperlink['href']
-        absURL =  mainURL + relURL
+        rel_url = hyperlink['href']
+        abs_url = main_url + rel_url
 
         time.sleep(delay)
 
+    # Comment out this line if you want to keep everything from wikitionary
+    wiki_abbrevs = filter_abbrevs(wiki_abbrevs)
 
-# Comment out this line if you want to keep everything from wikitionary
-wiki_abbrevs = filter_abbrevs(wiki_abbrevs)
+    # Write abbreviations to file
+    with open("wikitionary.txt", 'w') as fout:
+        for abbrev in wiki_abbrevs:
+            fout.write(abbrev + '\n')
 
-# Write abbreviations to file
-with open("wikitionary.txt", 'w') as fout:
-    for abbrev in wiki_abbrevs:
-        fout.write(abbrev + '\n')
+    # Load user-entered abbreviations
+    with open("user.txt", 'r') as fin:
+        user_abbrevs = fin.read().split('\n')
 
-# Load user-entered abbreviations
-with open("user.txt", 'r') as fin:
-    user_abbrevs = fin.read().split('\n')
+    # Last item is a blank space; don't need that
+    user_abbrevs.pop()
 
-# Last item is a blank space; don't need that
-user_abbrevs.pop()
+    # Load abbreviations that are too commonly used as nouns or verbs
+    # These should not be in the abbreviation list we want for textanalysis
+    with open("remove.txt", 'r') as fin:
+        remove_abbrevs = fin.read().split('\n')
 
-# Load abbreviations that are too commonly used as nouns or verbs
-# These should not be in the abbreviation list we want for textanalysis
-with open("remove.txt", 'r') as fin:
-    remove_abbrevs = fin.read().split('\n')
+    # Sets make it easier to remove duplicates or unwanted elements
+    wikiset = set(wiki_abbrevs)
+    userset = set(user_abbrevs)
+    removeset = set(remove_abbrevs)
 
-# Sets make it easier to remove duplicates or unwanted elements
-wikiset = set(wiki_abbrevs)
-userset = set(user_abbrevs)
-removeset = set(remove_abbrevs)
+    # Merge two abbreviations together
+    abbrevset = wikiset.union(userset)
 
-# Merge two abbreviations together
-abbrevset = wikiset.union(userset)
+    # Remove any abbreviations that may cause us trouble
+    abbrevset = abbrevset.difference(removeset)
 
-# Remove any abbreviations that may cause us trouble
-abbrevset = abbrevset.difference(removeset)
+    # Sort the set before writing (easier for humans to visually search/debug)
+    abbrevset = sorted(abbrevset)
 
-# Sort the set before writing (easier for humans to visually search/debug)
-abbrevset = sorted(abbrevset)
+    # Write merged and filtered set to abbreviations.txt
+    with open("abbreviations.txt", 'w') as fout:
+        for elem in abbrevset:
+            fout.write(elem + '\n')
 
-# Write merged and filtered set to abbreviations.txt
-with open("abbreviations.txt", 'w') as fout:
-    for elem in abbrevset:
-        fout.write(elem + '\n')
+# ------------------------------------------------------------------------------
+if __name__ == "__main__":
+    run()
