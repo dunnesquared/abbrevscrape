@@ -165,17 +165,18 @@ def filter_abbrevs(abbrevs):
                          caller
     '''
 
-    # Remove any leading or trailing white spaces from abbreviations
+    # Remove any leading or trailing white spaces from abbreviations that user
+    # may have typed accidentally
     abbrevs = list(map(lambda x: x.strip(), abbrevs))
-
-    # Remove acronyms; only interested in abbreviations that end with a .
-    filtered = list(filter(lambda x: x[-1] == '.', abbrevs))
 
     # Remove any weird but disruptive strings user could've added
     # to add.txt or remove.txt (e.g. '.' . ' .... ')
-    # regex: at least one alphanumeric character or underscore [a-zA-Z0-9_]
-    # plus a period at the end
-    filtered = list(filter(lambda x: bool(re.search("[\w]+\.", x)), filtered))
+    # regex pattern:
+    # at least one alphanumeric character or underscore [a-zA-Z0-9_] followed
+    # by zero or more periods; this pattern must be repeated at least once;
+    # all strings must end with a period
+    pattern = re.compile(r"[\w+\.*]+\.")
+    filtered = list(filter(pattern.fullmatch, abbrevs))
 
     return filtered
 

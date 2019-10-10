@@ -100,6 +100,12 @@ def test_filter_abbrevs():
     expected = []
     assert_equal(filter_abbrevs(abbrevs), expected)
 
+    # Test that failed...
+    abbrevs = ['a', 'bc.a', 'cd', 'b.c.']
+    expected = ['b.c.']
+    assert_equal(filter_abbrevs(abbrevs), expected)
+
+
 
 def test_create_abbrevset():
     # Default
