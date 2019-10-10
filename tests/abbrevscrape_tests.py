@@ -95,6 +95,11 @@ def test_filter_abbrevs():
     expected = []
     assert_equal(filter_abbrevs(abbrevs), expected)
 
+    # Nasty abbrevs that would mess up textanalysis big time
+    abbrevs = ['.', '   .   ', '?. ']
+    expected = []
+    assert_equal(filter_abbrevs(abbrevs), expected)
+
 
 def test_create_abbrevset():
     # Default

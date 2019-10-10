@@ -3,12 +3,13 @@
 
 
 To Do:
-    
+
 
 """
 
 import sys
 import time
+import re
 import requests
 from bs4 import BeautifulSoup
 
@@ -164,8 +165,18 @@ def filter_abbrevs(abbrevs):
                          caller
     '''
 
+    # Remove any leading or trailing white spaces from abbreviations
+    abbrevs = list(map(lambda x: x.strip(), abbrevs))
+
     # Remove acronyms; only interested in abbreviations that end with a .
     filtered = list(filter(lambda x: x[-1] == '.', abbrevs))
+
+    # Remove any weird but disruptive strings user could've added
+    # to add.txt or remove.txt (e.g. '.' . ' .... ')
+    # regex: at least one alphanumeric character or underscore [a-zA-Z0-9_]
+    # plus a period at the end
+    filtered = list(filter(lambda x: bool(re.search("[\w]+\.", x)), filtered))
+
     return filtered
 
 
@@ -261,13 +272,19 @@ def run():
         with open("add.txt", 'r') as fin:
             add_abbrevs = fin.read().split('\n')
 
-        # Last item is a blank space; don't need that
-        add_abbrevs.pop()
-
         # Load abbreviations that are too commonly used as nouns or verbs
         # These should not be in the abbreviation list we want for textanalysis
         with open("remove.txt", 'r') as fin:
             remove_abbrevs = fin.read().split('\n')
+
+        # Last item is a blank space; don't need that
+        add_abbrevs.pop()
+        remove_abbrevs.pop()
+
+        # Filter the add_abbrevs and remove_abbrevs in case user added
+        # abbreviations that don't end in a period
+        add_abbrevs = filter_abbrevs(add_abbrevs)
+        remove_abbrevs = filter_abbrevs(remove_abbrevs)
 
         # Add and remove any abbreviations from wiki_abbrevs
         abbrevset = create_abbrevset(wiki_abbrevs, add_abbrevs, remove_abbrevs)
