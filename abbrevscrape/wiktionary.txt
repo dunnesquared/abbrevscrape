@@ -1,5 +1,3 @@
-A. and M.
-A.A. Ag.
 A.L.J.
 a.u.
 ab.
@@ -16,7 +14,6 @@ abp.
 Abq.
 abr.
 abs.
-abs. feb.
 abstr.
 abv.
 Abyss.
@@ -25,7 +22,6 @@ acad.
 Acad.
 Acads.
 acc.
-acc. cogn.
 acq.
 Act.
 act.
@@ -54,17 +50,14 @@ alk.
 Alt.
 Alta.
 Am.
-Am. Sam.
 amb.
 amend.
 amends.
 amer.
 Amer.
 Amo.
-amp. hr.
 anat.
 Angl.
-ank. spond.
 Ann.
 ann.
 annot.
@@ -73,7 +66,6 @@ anon.
 ans.
 ant.
 Ant.
-Ant. & Barb.
 anthrop.
 ap.
 app.
@@ -92,7 +84,6 @@ Ark.
 Arm.
 art.
 arts.
-As. Mos.
 Assemb.
 assoc.
 Assoc.
@@ -101,16 +92,13 @@ astrol.
 astron.
 Atl.
 attrib.
-Att'y Gen.
 Au.D.
 aud.
 Aug.
 Aukšt.
 Austl.
-Austl. Cap. Terr.
 auth.
 Auth.
-Auth. Ver.
 Auto.
 Av.
 av.
@@ -120,9 +108,6 @@ avg.
 Azer.
 B.
 b.
-B. A.
-B. Litt.
-B. S.
 B.Arch.
 B.C.A.
 B.C.E.
@@ -145,7 +130,6 @@ Bd.
 Bd.
 bd.
 Bdf.
-Bel & Dr.
 Belg.
 Belr.
 Berks.
@@ -166,13 +150,11 @@ Bnff.
 Bol.
 Bor.
 Bos.
-Bosn. & Herz.
 Bots.
 Bp.
 Br.
 Braz.
 brevic.
-Brig. Gen.
 Brks.
 Broad.
 bros.
@@ -183,7 +165,6 @@ Bucks.
 Bulg.
 bus.
 Bus.
-C corp.
 C.
 C.A.A.F.
 C.B.
@@ -206,7 +187,6 @@ Cas.
 Cav.
 Cdg.
 Cent.
-Cent. Afr. Rep.
 cert.
 cfr.
 Cgy.
@@ -233,14 +213,11 @@ cmt.
 cmts.
 Cmty.
 Cnty.
-co-r.e.
 co.
 Co.
 Coal.
 coef.
 cogn.
-cogn. acc.
-cogn. obj.
 Col.
 col.
 coll.
@@ -266,7 +243,6 @@ Cong.
 conj.
 Conn.
 connex.
-Cons. Pol.
 Consol.
 constr.
 Constr.
@@ -287,7 +263,6 @@ Crn.
 Crnt.
 Croat.
 cst.
-Ct. of App.
 Cth.
 ctr.
 Ctr.
@@ -299,28 +274,9 @@ Cust.
 cv.
 Cymb.
 Cz.
-Czechoslovak Soc. Rep.
-Czechoslovak Socialist Rep.
 D.
 d.
-D. Ariz.
-D. Colo.
-D. Conn.
-D. Del.
-D. Haw.
-D. Kan.
-D. Mass.
-D. Md.
-D. Me.
-D. Minn.
-D. Mont.
-D. Neb.
-D. Nev.
-D. S.
-D. Vt.
-D. Wyo.
 D.Arch.
-D.C. Cir.
 D.O.
 Dall.
 Dan.
@@ -368,7 +324,6 @@ Dnb.
 do.
 dom.
 Dom.
-Dom. Rep.
 Don.
 Dor.
 Dr.
@@ -400,7 +355,6 @@ edit.
 educ.
 Educ.
 Egy.
-El Sal.
 Elec.
 elev.
 Elgin.
@@ -429,8 +383,6 @@ Ess.
 Est.
 est.
 estd.
-et al.
-et seqq.
 Eth.
 eur.
 Eur.
@@ -451,19 +403,15 @@ Ezek.
 Ezr.
 F.
 f.
-F. Supp.
 f.g.
 f.n.
 faj.
-Falk. Is.
 Fam.
 feat.
 Feb.
 Fed.
-Fed. Cir.
 fem.
 ff.
-fi. fa.
 Fid.
 Fif.
 fig.
@@ -471,7 +419,6 @@ figs.
 Fin.
 fl.
 Fl.
-fl. oz.
 Fla.
 flt.
 fmr.
@@ -489,7 +436,6 @@ fur.
 fut.
 fwy.
 g.
-G. E. A.
 G.O.
 Ga.
 gal.
@@ -503,8 +449,6 @@ Geo.
 Geor.
 Ger.
 Germ.
-German Dem. Rep.
-German Democratic Rep.
 Gib.
 Gk.
 Glag.
@@ -515,7 +459,6 @@ gov.
 Gow.
 gr.
 Gr.
-Gr. Brit.
 gram.
 Green.
 Gren.
@@ -549,7 +492,6 @@ Hrf.
 Hrt.
 Hsa.
 Hung.
-Hungarian People's Rep.
 hwy.
 hydrarg.
 hyp.
@@ -567,7 +509,6 @@ illus.
 imp.
 Imp.
 imper.
-in d.
 inc.
 incl.
 Ind.
@@ -586,7 +527,6 @@ inst.
 inst.
 Inst.
 int.
-Inter-Am.
 intl.
 intrans.
 intro.
@@ -641,7 +581,6 @@ Ky.
 Kyrg.
 L.
 l.
-L. A.
 l.c.
 L.J.
 L.P.H.
@@ -668,7 +607,6 @@ lig.
 Lin.
 lin.
 lit.
-Lit. Hum.
 Lith.
 Litig.
 Litt.D.
@@ -683,7 +621,6 @@ Lth.
 Luc.
 Luk.
 Lux.
-M.D. Fla.
 M.Eng.
 m.m.
 M.R.
@@ -697,8 +634,6 @@ Magis.
 Maint.
 Maj.
 maj.
-Maj. Gen.
-maj. gen.
 Mal.
 Malay.
 Man.
@@ -760,26 +695,14 @@ MUk.
 Mun.
 Mut.
 mut.
-mut. mut.
-mut. mutand.
 mutat.
-mutat. mutand.
 Myan.
 N.
 n.
-N. Am.
-N. F.
-N. Ir.
-N. Kor.
-N. Mar. I.
-n. pub.
-N. Terr.
-N. Y.
 N.A.
 N.B.
 n.b.
 n.d.
-N.D. Fla.
 N.O.
 n.p.
 N.S.
@@ -798,9 +721,7 @@ ne.
 Neb.
 neg.
 Neh.
-nem. con.
 neol.
-net wt.
 Neth.
 Nev.
 Newf.
@@ -810,10 +731,7 @@ Nhp.
 Nicar.
 nn.
 No.
-nol. pros.
 nom.
-nom. action.
-non obst.
 Non.
 nonacq.
 Nor.
@@ -830,7 +748,6 @@ Num.
 Nun.
 Nw.
 nw.
-O. S.
 O.C.
 O.D.
 O.S.
@@ -861,7 +778,6 @@ opp.
 OPr.
 opt.
 Or.
-orat. obliq.
 Ore.
 Org.
 ORuss.
@@ -870,8 +786,6 @@ OUk.
 Oxf.
 oxyt.
 p.
-P. I.
-p. t.
 p.a.
 P.E.I.
 p.m.
@@ -887,13 +801,11 @@ Pa.
 Pac.
 Pak.
 Pan.
-Papua N.G.
 Para.
 para.
 paras.
 part.
 pass.
-pat. pend.
 PBr.
 PCl.
 pctl.
@@ -919,22 +831,18 @@ Philem.
 Philipp.
 Phl.
 Phx.
-Pitcairn Is.
 pizz.
 pl.
 Pl.
 plur.
 pmbl.
 Pol.
-pol. cons.
-Polish People's Rep.
 pop.
 Port.
 poss.
 post.
 pp.
 Pr.
-Pr. of Man.
 prec.
 prehist.
 prep.
@@ -943,15 +851,12 @@ pres.
 pret.
 princ.
 princs.
-priv. doc.
-priv.-doc.
 priv.doc.
 Pro.
 Prob.
 prob.
 Prod.
 Prof.
-prof. ord.
 prog.
 Prop.
 Prot.
@@ -969,10 +874,8 @@ Pss.
 pt.
 pts.
 pub.
-Pub. L.
 pubs.
 pvt.
-Q. C.
 Q.C.
 q.v.
 Qc.
@@ -989,7 +892,6 @@ rad.
 rall.
 Rd.
 rd.
-re-est.
 rec.
 recip.
 Ref.
@@ -1015,34 +917,19 @@ riten.
 rm.
 Rom.
 rpt.
-rptr. n.
-rptr. nn.
 Rth.
 Ru.
 Rus.
 Russ.
-Russian Soviet Fed. Socialist Rep.
 RV.
 Rxb.
 Ry.
-S corp.
 S.
 s.
-S. A.
-S. A. T.
-S. Afr.
-S. Am.
-S. Austl.
-S. D.
-S. F.
-S. Kor.
-S. of III Ch.
-S. of Sol.
 s.a.
 S.Afr.
 s.ap.
 S.D.
-S.D. Fla.
 S.D.N.Y.
 S.Dak.
 S.J.
@@ -1068,7 +955,6 @@ Sax.
 sbd.
 sc.
 Sc.
-scan. mag.
 sce.
 Sch.
 sched.
@@ -1099,7 +985,6 @@ sg.
 sgd.
 Sgs.
 Si.
-sig. fig.
 sing.
 Sing.
 Sir.
@@ -1115,12 +1000,8 @@ Slovn.
 So.
 soc.
 Soc.
-Solom. Is.
 Som.
-Song of Sol.
-Song Sol.
 SovUk.
-sp. gr.
 spec.
 specif.
 sq.
@@ -1133,7 +1014,6 @@ Sta.
 Ste.
 Stf.
 sts.
-sub-para.
 sub.
 Subcomm.
 subdiv.
@@ -1150,7 +1030,6 @@ Suf.
 Sun.
 Sup.
 sup.
-Sup. Ct.
 Supp.
 supp.
 supt.
@@ -1211,7 +1090,6 @@ Tts.
 Tunis.
 Turk.
 Turkm.
-Turks & Caicos Is.
 Twp.
 U.A.E.
 U.K.
@@ -1221,8 +1099,6 @@ ult.
 unabr.
 unch.
 Unif.
-Union of Soviet Soc. Reps.
-Union of Soviet Socialist Reps.
 Univ.
 unk.
 Uru.
@@ -1231,8 +1107,6 @@ usu.
 Util.
 Uzb.
 v.
-V. D.
-V. I.
 V.C.
 V.I.
 v.i.
@@ -1251,7 +1125,6 @@ vid.
 Viet.
 Vill.
 vindicat.
-Virgin Is.
 Vis.
 Visc.
 vit.
@@ -1269,7 +1142,6 @@ Vulg.
 vulg.
 vv.ll.
 w.
-W. Aust.
 w.l.o.g.
 W.Va.
 Wa.
@@ -1290,7 +1162,6 @@ Wpg.
 wt.
 Wxf.
 Wyo.
-x-div.
 Xemb.
 Xyl.
 Y.
