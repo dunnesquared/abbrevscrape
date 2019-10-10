@@ -99,6 +99,9 @@ def scrape_wiki(abs_url, main_url, numpages, delay):
         print(f"{response} => GET successful! Page retrieved.")
 
         try:
+
+            print("Parsing page for abbreviations...", end="")
+
             # Create BS object that will allow you to easily parse the webpage
             soup = BeautifulSoup(response.text, "html.parser")
 
@@ -132,6 +135,8 @@ def scrape_wiki(abs_url, main_url, numpages, delay):
 
             # If we scrape site too quickly, it may block us
             time.sleep(delay)
+
+            print("DONE!")
 
         except AttributeError as err:
             # In case we get a page we can scrape but doesn't have the tags
@@ -256,6 +261,7 @@ def run():
     # Get all the pages on wiktionary related to abbreviations
     wiki_abbrevs = scrape_wiki(abs_url, main_url, numpages, delay)
 
+
     # Want to make sure we have something to write to files below...
     if wiki_abbrevs:
         # Comment out this line if you want to keep acronyms from wiktionary
@@ -264,6 +270,8 @@ def run():
         raise ValueError("List wiki_abbrevs empty.")
 
     try:
+        print("Filtering and merging abbreviations...", end="")
+
         # Write filtered wiki_abbrevs to file
         with open("wiktionary.txt", 'w') as fout:
             for abbrev in wiki_abbrevs:
@@ -290,10 +298,14 @@ def run():
         # Add and remove any abbreviations from wiki_abbrevs
         abbrevset = create_abbrevset(wiki_abbrevs, add_abbrevs, remove_abbrevs)
 
+        print("DONE!\nWriting abbreviations to abbreviations.txt...", end="")
+
         # Write final set to abbreviations.txt to be used by textanalysis.py
         with open("abbreviations.txt", 'w') as fout:
             for elem in abbrevset:
                 fout.write(elem + '\n')
+
+        print("DONE!")
 
     except OSError as err:
         # Bad file IO
