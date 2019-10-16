@@ -1,10 +1,44 @@
 # -*- coding: utf-8 -*-
-"""Web-scraping script that retrieves English abbreviations from Wiktionary.org
+"""Wiktionary Abbreviation Scraper
 
+The purpose of this script is to create a text file containing a list of
+abbreviations commonly used in English. The intended user of this list is
+module "textanalysis", which uses the abbreviation list to help extract
+sentences from a a text.
 
-To Do:
+Abbreviations are scraped from Wiktionary.org. Continuous thanks to the
+many Wikimedia contributors who make it possible to write scripts like
+these!
 
+The main output file to be used by "textanalysis" is "abbreviations.txt". The
+other output file is "wiktionary.txt", which is a superset of the aforementioned
+file.
 
+In this script, an abbreviation is any one-word, alphanumeric string (under-
+scores allowed) that ends with a period. Acronyms and multi-word abbreviations
+are thus filtered out.
+
+Pleae read "readme.txt" before writing abbreviations to "add.txt" or
+"remove.txt". Bad modifications to these files will lead to unexpected results.
+
+This script requires 'requests' and 'BeautifulSoup' be installed in the Python
+environment where this script runs.
+
+No command-line parameters are required to run this script–only an internet
+connection and permission to write in the subfolders where this script is run.
+
+This file can also be imported as a module and contains the following
+public functions:
+
+    * scrape_wiki - returns 'list' object containing Wiktionary abbreviations
+
+    * filter_abbrevs - returns a filtered list of the above
+
+    * create_abbrevlist - returns a sorted 'list' obj filtering out abbrevia-
+                          tions from 'remove.txt'but adding ones from
+                          'add.txt'.
+
+    * run - the main function of the script
 """
 
 import sys
@@ -14,10 +48,11 @@ import requests
 from bs4 import BeautifulSoup
 
 
-def carry_on(ans):
+def _carry_on(ans):
     '''Determine whether to continue executing script based on user response.
-       If the response is either no or something that the code doesn't under-
-       stand, the program will exit (with an error code in the former case).
+
+    If the response is either no or something that the code doesn't under-
+    stand, the program will exit (with an error code in the former case).
 
     Args:
         ans (str): User's answer as to whether to carry on with script
@@ -91,7 +126,7 @@ def scrape_wiki(abs_url, main_url, numpages, delay):
         # See whether we retrieved the page successfully or not
         code = response.status_code
 
-        if not is200(code):
+        if not _is200(code):
             print(f"Status code {code} unexpected: exepecting 200.",
                   file=sys.stderr)
             sys.exit("Quitting script.")
@@ -147,7 +182,7 @@ def scrape_wiki(abs_url, main_url, numpages, delay):
     return wiki_abbrevs
 
 
-def is200(status_code):
+def _is200(status_code):
     '''Return whether HTTP GET status-code 200 received
 
     Args:
@@ -186,7 +221,7 @@ def filter_abbrevs(abbrevs):
     return filtered
 
 
-def create_abbrevset(wiki_abbrevs, add_abbrevs, remove_abbrevs):
+def create_abbrevlist(wiki_abbrevs, add_abbrevs, remove_abbrevs):
     '''Return a sorted list of abbreviations that can be written to
        abbreviations.txt and so processed by textanalysis.py.
 
@@ -196,7 +231,7 @@ def create_abbrevset(wiki_abbrevs, add_abbrevs, remove_abbrevs):
         remove_abbrevs(list): user abbreviations from remove.txt
 
      Return:
-        abbrevset (list): sorted list of abbreviations
+        (list): sorted list of abbreviations
 
     '''
     # Sets make it easier to remove duplicates or unwanted elements
@@ -256,11 +291,10 @@ def run():
     ans = input("Would you like to continue (Y/N)? ").strip()
 
     # Exit program if user said no or something unintelligible; carry-on if yes
-    carry_on(ans)
+    _carry_on(ans)
 
     # Get all the pages on wiktionary related to abbreviations
     wiki_abbrevs = scrape_wiki(abs_url, main_url, numpages, delay)
-
 
     # Want to make sure we have something to write to files below...
     if wiki_abbrevs:
@@ -296,13 +330,13 @@ def run():
         remove_abbrevs = filter_abbrevs(remove_abbrevs)
 
         # Add and remove any abbreviations from wiki_abbrevs
-        abbrevset = create_abbrevset(wiki_abbrevs, add_abbrevs, remove_abbrevs)
+        abbrevlist = create_abbrevlist(wiki_abbrevs, add_abbrevs, remove_abbrevs)
 
         print("DONE!\nWriting abbreviations to abbreviations.txt...", end="")
 
         # Write final set to abbreviations.txt to be used by textanalysis.py
         with open("abbreviations.txt", 'w') as fout:
-            for elem in abbrevset:
+            for elem in abbrevlist:
                 fout.write(elem + '\n')
 
         print("DONE!")

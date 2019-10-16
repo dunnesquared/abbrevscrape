@@ -4,22 +4,24 @@ import requests
 
 
 def test_carry_on():
+    import abbrevscrape.abbrevscrape as abscrape
+
     # All possible negative responses with spaces
     ans = '   N    '
-    assert_raises(SystemExit, carry_on, ans.strip())
+    assert_raises(SystemExit, abscrape._carry_on, ans.strip())
 
     ans = '   n   '
-    assert_raises(SystemExit, carry_on, ans.strip())
+    assert_raises(SystemExit, abscrape._carry_on, ans.strip())
 
     ans = '   no   '
-    assert_raises(SystemExit, carry_on, ans.strip())
+    assert_raises(SystemExit, abscrape._carry_on, ans.strip())
 
     ans = '   No   '
-    assert_raises(SystemExit, carry_on, ans.strip())
+    assert_raises(SystemExit, abscrape._carry_on, ans.strip())
 
     # Invalid response
     ans = '   N o   '
-    assert_raises(SystemExit, carry_on, ans.strip())
+    assert_raises(SystemExit, abscrape._carry_on, ans.strip())
 
 
 def test_scrape_wiki():
@@ -73,10 +75,12 @@ def test_scrape_wiki():
 
 
 def test_is200():
+    import abbrevscrape.abbrevscrape as abscrape
+
     # status code == 200
     # status code != 200
-    assert_equal(is200(200), True)
-    assert_equal(is200(-200), False)
+    assert_equal(abscrape._is200(200), True)
+    assert_equal(abscrape._is200(-200), False)
 
 
 def test_filter_abbrevs():
@@ -107,7 +111,7 @@ def test_filter_abbrevs():
 
 
 
-def test_create_abbrevset():
+def test_create_abbrevlist():
     # Default
     wiki_abbrevs = ['X.', 'Y.', 'Z.']
     add_abbrevs = ['A.', 'B.', 'C.', 'D.']
@@ -115,32 +119,32 @@ def test_create_abbrevset():
 
     # Typical, valid input
     expected = sorted({'A.', 'C.', 'D.', 'X.', 'Y.', 'Z.'}) # need to sort regardless; order won't be preserved otherwise
-    assert_equal(create_abbrevset(wiki_abbrevs, add_abbrevs, remove_abbrevs), expected)
+    assert_equal(create_abbrevlist(wiki_abbrevs, add_abbrevs, remove_abbrevs), expected)
 
     # Remove an abbrev that is not in union
     remove_abbrevs = ['F.']
     expected = sorted({'A.', 'B.', 'C.', 'D.','X.', 'Y.', 'Z.'})
-    assert_equal(create_abbrevset(wiki_abbrevs, add_abbrevs, remove_abbrevs), expected)
+    assert_equal(create_abbrevlist(wiki_abbrevs, add_abbrevs, remove_abbrevs), expected)
 
     # Empty wikiabbrevs
     remove_abbrevs = ['B.'] # reset
     wiki_abbrevs = []
     expected = sorted({'A.', 'C.', 'D.'})
-    assert_equal(create_abbrevset(wiki_abbrevs, add_abbrevs, remove_abbrevs), expected)
+    assert_equal(create_abbrevlist(wiki_abbrevs, add_abbrevs, remove_abbrevs), expected)
 
     # Empty addabbrevs
     wiki_abbrevs = ['X.', 'Y.', 'Z.'] # reset
     add_abbrevs = []
     expected = sorted({'X.', 'Y.', 'Z.'})
-    assert_equal(create_abbrevset(wiki_abbrevs, add_abbrevs, remove_abbrevs), expected)
+    assert_equal(create_abbrevlist(wiki_abbrevs, add_abbrevs, remove_abbrevs), expected)
 
     # Empty removeabbrevs
     add_abbrevs = ['A.', 'B.', 'C.', 'D.'] # reset
     remove_abbrevs = []
     expected = sorted({'A.', 'B.', 'C.', 'D.', 'X.', 'Y.', 'Z.'})
-    assert_equal(create_abbrevset(wiki_abbrevs, add_abbrevs, remove_abbrevs), expected)
+    assert_equal(create_abbrevlist(wiki_abbrevs, add_abbrevs, remove_abbrevs), expected)
 
     # All empty lists
     wiki_abbrevs, add_abbrevs, remove_abbrevs = [], [], []
     expected = sorted({}) # sorted alwats returns a list
-    assert_equal(create_abbrevset(wiki_abbrevs, add_abbrevs, remove_abbrevs), expected)
+    assert_equal(create_abbrevlist(wiki_abbrevs, add_abbrevs, remove_abbrevs), expected)
