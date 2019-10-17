@@ -1,44 +1,46 @@
 # -*- coding: utf-8 -*-
+
 """Wiktionary Abbreviation Scraper
 
 The purpose of this script is to create a text file containing a list of
 abbreviations commonly used in English. The intended user of this list is
-module "textanalysis", which uses the abbreviation list to help extract
+module "textanalysis", which uses the abbreviation file to help extract
 sentences from a a text.
 
 Abbreviations are scraped from Wiktionary.org. Continuous thanks to the
 many Wikimedia contributors who make it possible to write scripts like
 these!
 
-The main output file to be used by "textanalysis" is "abbreviations.txt". The
-other output file is "wiktionary.txt", which is a superset of the aforementioned
-file.
+The main output file of this script is "abbreviations.txt". This is the file
+the textanalysis module uses. The other output file is "wiktionary.txt",
+which is a superset of "abbreviations.txt".
 
 In this script, an abbreviation is any one-word, alphanumeric string (under-
 scores allowed) that ends with a period. Acronyms and multi-word abbreviations
 are thus filtered out.
 
 Pleae read "readme.txt" before writing abbreviations to "add.txt" or
-"remove.txt". Bad modifications to these files will lead to unexpected results.
+"remove.txt". Incorrect updates to these files will lead to unexpected results.
 
 This script requires 'requests' and 'BeautifulSoup' be installed in the Python
-environment where this script runs.
+environment where this script runs. This script should be compatible with
+Python 3.6.1 or above.
 
 No command-line parameters are required to run this script–only an internet
-connection and permission to write in the subfolders where this script is run.
+connection and permission to write to the abbrevscrape folder.
 
 This file can also be imported as a module and contains the following
 public functions:
 
-    * scrape_wiki - returns 'list' object containing Wiktionary abbreviations
+    * scrape_wiki - returns a 'list' object containing Wiktionary abbreviations
 
     * filter_abbrevs - returns a filtered list of the above
 
     * create_abbrevlist - returns a sorted 'list' obj filtering out abbrevia-
-                          tions from 'remove.txt'but adding ones from
+                          tions from 'remove.txt' but adding ones from
                           'add.txt'.
 
-    * run - the main function of the script
+    * run - the main body of the script
 """
 
 import sys
@@ -49,17 +51,14 @@ from bs4 import BeautifulSoup
 
 
 def _carry_on(ans):
-    '''Determine whether to continue executing script based on user response.
+    """Determines whether to continue executing script based on user response.
 
-    If the response is either no or something that the code doesn't under-
+    If the response is either 'No' or something that the code doesn't under-
     stand, the program will exit (with an error code in the former case).
 
     Args:
         ans (str): User's answer as to whether to carry on with script
-
-    Return:
-        Nil
-    '''
+    """
 
     # Acceptable answers
     possible = ['Y', 'y', 'Yes', 'yes', 'N', 'n', 'No', 'no']
@@ -67,33 +66,33 @@ def _carry_on(ans):
     if ans not in possible:
         print("Invalid input. Quitting script.", file=sys.stderr)
         sys.exit(2) # UNIX convention for command-line syntax errors
+
     if ans in ['N', 'n', 'No', 'no']:
         sys.exit()
 
 
 def scrape_wiki(abs_url, main_url, numpages, delay):
-    '''Download all relevant pages from wiktionary.org and parse each page
-       for abbreviations
+    """Downloads Wiktionary abbreviation pages and parses each page
 
     Args:
         abs_url (str): full URL of page to be downloaded
-        main_url (str): Wikitionary's home-page URL
+        main_url (str): Wiktionary's home-page URL
         numpages (int): Number of web pages to be downloaded
         delay (int): time (seconds) program should sleep before downloading
                      next page
 
-     Raise:
-        ValueError: Several cases possible
-                    i) numpages or delay are negative
-                    ii) numpages is zero (scraping doesn't happen)
-                    iii) delay is between 0 and 1 seconds (delay too short)
+    Returns:
+        wiki_abbrevs (list): string abbreviations from downloaded pages
 
-        requests.exceptions.RequestException: in case of connection issues
-        reaching URL
+    Raises:
+       ValueError: Several cases possible
+                   i) numpages or delay are negative
+                   ii) numpages is zero (scraping doesn't happen)
+                   iii) delay is between 0 and 1 seconds (delay too short)
 
-    Return:
-        wiki_abbrevs (list): abbreviations from downloaded pages
-    '''
+       requests.exceptions.RequestException: in case of connection issues
+                                             reaching URL
+    """
 
     if numpages < 0 or delay < 0:
         raise ValueError("numpages or delay cannot be less than zero.")
@@ -110,6 +109,7 @@ def scrape_wiki(abs_url, main_url, numpages, delay):
     wiki_abbrevs = []
 
     for _ in range(numpages):
+
         # Fetch web page; check whether successful
         print(f"Fetching {abs_url}...")
 
@@ -117,17 +117,17 @@ def scrape_wiki(abs_url, main_url, numpages, delay):
             response = requests.get(abs_url)
 
         # No need to catch specific exceptions such as ConnectionError
-        # or TimeoutError for this simple script: just catch the basecalsse
+        # or TimeoutError for this simple script: just catch the base class
         except requests.exceptions.RequestException as err:
             print(f"\nERROR:\n{err}", file=sys.stderr)
             sys.exit("\nCheck that you are connected to the internet " \
                      "and that URL is correct.\n")
 
         # See whether we retrieved the page successfully or not
-        code = response.status_code
+        stat_code = response.status_code
 
-        if not _is200(code):
-            print(f"Status code {code} unexpected: exepecting 200.",
+        if not _is200(stat_code):
+            print(f"Status code {stat_code} unexpected: exepecting 200.",
                   file=sys.stderr)
             sys.exit("Quitting script.")
 
@@ -143,19 +143,18 @@ def scrape_wiki(abs_url, main_url, numpages, delay):
             # Get section on page that has all the abbreviations
             div = soup.find(id="mw-pages")
 
-            # Zero-in some more to get all the li tags in the div that each
-            # contain an abbreviation
+            # Zero-in some more to get all the li tags in the div. Each li
+            # contains a hperlink which in turns contains an abbreviation
             li_tags = div.findAll('li')
 
-            # Each li tag contains a hyperlink. The text of the hyperlink
-            # is what we want: an abbreviation
+            # Collect the text from each hyperlink, i.e. the abbreviation
             for li_tag in li_tags:
                 wiki_abbrevs.append(li_tag.a.string)
 
-            # Get the hyperlink to next page we want to download
+            # Get the hyperlink to the next page we want to download
             hyperlink = div.find('a', text='next page')
 
-            # Get relative URL to next page with abbreviations
+            # Get relative URL to the next page with abbreviations
             # Caution: program assumes only 21 pages need to be fetched,
             # but this could be changed at any time:
             # If program hits the last page, there will be no next page
@@ -174,6 +173,7 @@ def scrape_wiki(abs_url, main_url, numpages, delay):
             print("DONE!")
 
         except AttributeError as err:
+
             # In case we get a page we can scrape but doesn't have the tags
             # we need to process (ie we'll be returned a None somewhere)
             print("AttributeError: {0}".format(err), file=sys.stderr)
@@ -183,35 +183,37 @@ def scrape_wiki(abs_url, main_url, numpages, delay):
 
 
 def _is200(status_code):
-    '''Return whether HTTP GET status-code 200 received
+    """Returns whether HTTP GET status-code 200 received
 
     Args:
         status_code (int): Status code as function of GET request
-    Return:
+
+    Returns:
         True : status_code == 200
         False: status_code != 200
-    '''
+    """
+
     return status_code == 200
 
 
 def filter_abbrevs(abbrevs):
-    '''Return filtered list of abbreviations from wiktionary
+    """Removes abbreviations that are more than one word or don't end with '.'
 
     Args:
-        abbrevs (list): Abbreviations from wiktionary
+        abbrevs (list): String abbreviations from wiktionary
 
-    Return:
+    Returns:
         filtered (list): a subset of the list of abbreviations passed by
                          caller
-    '''
+    """
 
     # Remove any leading or trailing white spaces from abbreviations that user
-    # may have typed accidentally
+    # may have typed accidentally in any input file
     abbrevs = list(map(lambda x: x.strip(), abbrevs))
 
     # Remove any weird but disruptive strings user could've added
     # to add.txt or remove.txt (e.g. '.' . ' .... ')
-    # regex pattern:
+    # Regex pattern:
     # at least one alphanumeric character or underscore [a-zA-Z0-9_] followed
     # by zero or more periods; this pattern must be repeated at least once;
     # all strings must end with a period
@@ -222,46 +224,47 @@ def filter_abbrevs(abbrevs):
 
 
 def create_abbrevlist(wiki_abbrevs, add_abbrevs, remove_abbrevs):
-    '''Return a sorted list of abbreviations that can be written to
-       abbreviations.txt and so processed by textanalysis.py.
+    """Creates a final abbreviations list for abbreviations.txt
+
+    Function adds and removes abbreviations from those retrieved
+    on Wiktionary as per the contents of the arguments.
 
      Args:
         wiki_abbrevs (list): abbreviations from wiktionary.org
-        add_abbrevs (list): user abbreviations from add.txt
-        remove_abbrevs(list): user abbreviations from remove.txt
+        add_abbrevs (list): abbreviations to add to wiki_abbrevs
+        remove_abbrevs(list): abbreviations to remove from above lists
 
-     Return:
-        (list): sorted list of abbreviations
+     Returns:
+        A sorted list of string abbreviations
 
-    '''
-    # Sets make it easier to remove duplicates or unwanted elements
+    """
+
+    # Sets make it easier to remove duplicates and unwanted elements
     wikiset = set(wiki_abbrevs)
     addset = set(add_abbrevs)
     removeset = set(remove_abbrevs)
 
-    # Merge two abbreviation sets together
+    # Merge two abbreviation sets together; duplicates removed automatically
     abbrevset = wikiset.union(addset)
 
-    # Remove any abbreviations that may cause trouble
+    # Remove any abbreviations that may cause trouble for textanalysis module
     abbrevset = abbrevset.difference(removeset)
 
-    # Sort the set before writing (easier for humans to visually search/debug)
+    # Sort the set before writing so it's easier for humans to visually
+    # search and debug the list
     # Note that an ordered list is returned, not a set
     return sorted(abbrevset)
 
 
 def run():
-    '''Execute web-scraping script
+    """Executes web-scraping script
 
     Args:
         nil
 
     Raise:
-        ValueError: if wiki_abbrevs is empty (i.e. nothing scraped!)
-
-    Return:
-        nil
-    '''
+        ValueError: if nothing scraped from wiktionary
+    """
 
     # First page where abbreviations will start to be scraped
     abs_url = 'https://en.wiktionary.org/w/index.php?title=Category:' \
@@ -274,13 +277,13 @@ def run():
     numpages = 21
 
     # The delay between fetching each page (in seconds)
-    # If we scrape to fast, website might block us.
+    # If we scrape too fast, website might block us.
     delay = 1
 
     # Intro prompt
     print("Welcome to abbrevscrape!")
     print("This script will update abbreviations.txt with any new " +
-          "abbreviations from Wikitionary.org.")
+          "abbreviations from Wiktionary.org.")
 
     # Give user choice to quit update: user may skip if done recently or
     # is unsure whether it is legal to scrape website
@@ -320,7 +323,7 @@ def run():
         with open("remove.txt", 'r') as fin:
             remove_abbrevs = fin.read().split('\n')
 
-        # Last item is a blank space; don't need that
+        # Last item in each list is a blank space; don't need that
         add_abbrevs.pop()
         remove_abbrevs.pop()
 
@@ -330,11 +333,12 @@ def run():
         remove_abbrevs = filter_abbrevs(remove_abbrevs)
 
         # Add and remove any abbreviations from wiki_abbrevs
-        abbrevlist = create_abbrevlist(wiki_abbrevs, add_abbrevs, remove_abbrevs)
+        abbrevlist = create_abbrevlist(wiki_abbrevs, add_abbrevs,
+                                       remove_abbrevs)
 
         print("DONE!\nWriting abbreviations to abbreviations.txt...", end="")
 
-        # Write final set to abbreviations.txt to be used by textanalysis.py
+        # Write final set to abbreviations.txt to be used by textanalysis
         with open("abbreviations.txt", 'w') as fout:
             for elem in abbrevlist:
                 fout.write(elem + '\n')
@@ -346,10 +350,12 @@ def run():
         print("OS error: {0}".format(err), file=sys.stderr)
         sys.exit()
 
-# ------------------------------------------------------------------------------
+
+# Script runs here
 if __name__ == "__main__":
+
     try:
-        # Run web-scraping script!!
         run()
+
     except ValueError as err:
         print("Value error: {0}".format(err), file=sys.stderr)
