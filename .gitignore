@@ -1,0 +1,5 @@
+*.py[cod]
+__pycache__/ #Exclude the whole folder
+venv/
+textanalysis/__init__.py
+.DS_Store
