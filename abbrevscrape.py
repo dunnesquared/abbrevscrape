@@ -40,8 +40,6 @@ public functions:
     * create_abbrevlist - returns a sorted 'list' obj filtering out abbrevia-
                           tions from 'remove.txt' but adding ones from
                           'add.txt'.
-
-    * run - the main body of the script
 """
 
 import sys
@@ -257,7 +255,7 @@ def create_abbrevlist(wiki_abbrevs, add_abbrevs, remove_abbrevs):
     return sorted(abbrevset)
 
 
-def run():
+def _run():
     """Executes web-scraping script
 
     Args:
@@ -356,7 +354,7 @@ def run():
 if __name__ == "__main__":
 
     try:
-        run()
+        _run()
 
     except ValueError as err:
         print("Value error: {0}".format(err), file=sys.stderr)
