@@ -790,7 +790,6 @@ P.O.
 p.o.
 p.p.
 p.pr.
-P.Q.
 P.R.
 p.t.
 P.U.C.
@@ -1157,7 +1156,6 @@ Wxf.
 Wyo.
 Xemb.
 Xyl.
-Y.
 yd.
 Yks.
 Zam.
