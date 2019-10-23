@@ -1,43 +1,34 @@
-# !/usr/bin/env python3
 # -*- coding: utf-8 -*-
+#
+# !/usr/bin/env python3
 
 """Wiktionary Abbreviation Scraper
 
-The purpose of this script is to create a text file containing a list of
-abbreviations commonly used in English. The intended user of this list is
-module "textanalysis", which uses the abbreviation file to help extract
-sentences from a a text.
+Abbrevscrape is a Python script that scrapes abbreviations from Wiktionary.org
+and writes them to local text file, 'abbreviations.txt'.
 
-Abbreviations are scraped from Wiktionary.org. Continuous thanks to the
-many Wikimedia contributors who make it possible to write scripts like
-these!
-
-The main output file of this script is "abbreviations.txt". This is the file
-the textanalysis module uses. The other output file is "wiktionary.txt",
-which is a superset of "abbreviations.txt".
-
-In this script, an abbreviation is any one-word, alphanumeric string (under-
+In this script, an abbreviation is any single word, alphanumeric string (under-
 scores allowed) that ends with a period. Acronyms and multi-word abbreviations
-are thus filtered out.
+are filtered out.
 
-Pleae read "howto.txt" before writing abbreviations to "add.txt" or
-"remove.txt". Incorrect updates to these files will lead to unexpected results.
+Pleae read 'README.md' before writing abbreviations to 'add.txt' or
+'remove.txt'. Incorrect updates to these files will lead to unexpected results.
 
 This script requires 'requests' and 'BeautifulSoup' be installed in the Python
 environment where this script runs. This script should be compatible with
 Python 3.6.1 or above.
 
 No command-line parameters are required to run this script–only an internet
-connection and permission to write to the abbrevscrape folder.
+connection and permission to write to the abbrevscrape's 'data' folder.
 
 This file can also be imported as a module and contains the following
 public functions:
 
     * scrape_wiki - returns a 'list' object containing Wiktionary abbreviations
 
-    * filter_abbrevs - returns a filtered list of the above
+    * filter_abbrevs - returns a filtered 'list' of the above
 
-    * create_abbrevlist - returns a sorted 'list' obj filtering out abbrevia-
+    * create_abbrevlist - returns a sorted 'list' filtering out abbrevia-
                           tions from 'remove.txt' but adding ones from
                           'add.txt'.
 """
