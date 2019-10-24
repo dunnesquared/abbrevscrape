@@ -64,7 +64,6 @@ def _inputfiles_exist():
         raise OSError(f"'{PATH_REMOVE}' missing.")
 
 
-
 def _carry_on(ans):
     """Determines whether to continue executing script based on user response.
 
