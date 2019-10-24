@@ -36,8 +36,33 @@ public functions:
 import sys
 import time
 import re
+import pathlib
 import requests
 from bs4 import BeautifulSoup
+
+
+# Realtive paths to input-output files
+PATH_ADD = "./data/add.txt"
+PATH_REMOVE = "./data/remove.txt"
+PATH_WIKI = "./data/wiktionary.txt"
+PATH_ABBREV = "./data/abbreviations.txt"
+
+
+def _inputfiles_exist():
+    """Checks whether 'add.txt' and 'remove.txt' are present.
+
+    Raises:
+        OSError: if either 'add.txt' or 'remove.txt' are missing
+    """
+
+    path = pathlib.Path(PATH_ADD)
+    if not path.exists():
+        raise OSError(f"'{PATH_ADD}' missing.")
+
+    path = pathlib.Path(PATH_REMOVE)
+    if not path.exists():
+        raise OSError(f"'{PATH_REMOVE}' missing.")
+
 
 
 def _carry_on(ans):
@@ -163,7 +188,6 @@ def scrape_wiki(abs_url, main_url, numpages, delay):
             print("DONE!")
 
         except AttributeError as err:
-
             # In case we get a page we can scrape but doesn't have the tags
             # we need to process (ie we'll be returned a None somewhere)
             print("AttributeError: {0}".format(err), file=sys.stderr)
@@ -286,31 +310,34 @@ def _run():
     # Exit program if user said no or something unintelligible; carry-on if yes
     _carry_on(ans)
 
-    # Get all the pages on wiktionary related to abbreviations
-    wiki_abbrevs = scrape_wiki(abs_url, main_url, numpages, delay)
-
-    # Want to make sure we have something to write to files below...
-    if wiki_abbrevs:
-        # Comment out this line if you want to keep acronyms from wiktionary
-        wiki_abbrevs = filter_abbrevs(wiki_abbrevs)
-    else:
-        raise ValueError("List wiki_abbrevs empty.")
-
     try:
+        # Make sure input files exist before proceeeding
+        _inputfiles_exist()
+
+        # Get all the pages on wiktionary related to abbreviations
+        wiki_abbrevs = scrape_wiki(abs_url, main_url, numpages, delay)
+
+        # Want to make sure we have something to write to files below...
+        if wiki_abbrevs:
+            # Comment out this line if you want to keep acronyms from wiktionary
+            wiki_abbrevs = filter_abbrevs(wiki_abbrevs)
+        else:
+            raise ValueError("List wiki_abbrevs empty.")
+
         print("Filtering and merging abbreviations...", end="")
 
         # Write filtered wiki_abbrevs to file
-        with open("./data/wiktionary.txt", 'w') as fout:
+        with open(PATH_WIKI, 'w') as fout:
             for abbrev in wiki_abbrevs:
                 fout.write(abbrev + '\n')
 
         # Load user-entered abbreviations to be added to abbreviations.txt
-        with open("./data/add.txt", 'r') as fin:
+        with open(PATH_ADD, 'r') as fin:
             add_abbrevs = fin.read().split('\n')
 
         # Load abbreviations that are too commonly used as nouns or verbs
         # These should not be in the abbreviation list we want for textanalysis
-        with open("./data/remove.txt", 'r') as fin:
+        with open(PATH_REMOVE, 'r') as fin:
             remove_abbrevs = fin.read().split('\n')
 
         # Last item in each list is a blank space; don't need that
@@ -329,7 +356,7 @@ def _run():
         print("DONE!\nWriting abbreviations to abbreviations.txt...", end="")
 
         # Write final set to abbreviations.txt to be used by textanalysis
-        with open("./data/abbreviations.txt", 'w') as fout:
+        with open(PATH_ABBREV, 'w') as fout:
             for elem in abbrevlist:
                 fout.write(elem + '\n')
 
@@ -339,13 +366,12 @@ def _run():
         # Bad file IO
         print("OS error: {0}".format(err), file=sys.stderr)
         sys.exit()
+    except ValueError as err:
+        # No abbreviations scraped from Wikitionary.org
+        print("Value error: {0}".format(err), file=sys.stderr)
+        sys.exit()
 
 
 # Script runs here
 if __name__ == "__main__":
-
-    try:
-        _run()
-
-    except ValueError as err:
-        print("Value error: {0}".format(err), file=sys.stderr)
+    _run()
