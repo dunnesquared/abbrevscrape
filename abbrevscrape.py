@@ -122,7 +122,7 @@ def scrape_wiki(abs_url, main_url, numpages, delay):
     # List to contain abbreviations parsed from downloaded pages
     wiki_abbrevs = []
 
-    for _ in range(numpages):
+    for __ in range(numpages):
 
         # Fetch web page; check whether successful
         print(f"Fetching {abs_url}...")
